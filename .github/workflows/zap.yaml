@@ -1,0 +1,12 @@
+name: DAST with OWASP ZAP
+on:
+  push:
+    branches: [cicd]
+jobs:
+  zap-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: zaproxy/action-baseline@v0.14.0
+        with:
+          target: https://adulbrich.github.io/ci-cd-demo2/
+          fail_action: true
