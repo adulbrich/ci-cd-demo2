@@ -1,7 +1,7 @@
 name: Test pushed code
 
 on: 
-    push:
+    pull_request:
       
 jobs:
     build-and-test:

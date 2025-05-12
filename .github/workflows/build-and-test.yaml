@@ -2,6 +2,10 @@ name: Build and Test
 
 on: 
     workflow_call:
+      inputs:
+        upload-pages-artifact:
+          type: boolean
+          required: false
     workflow_dispatch: 
 
 jobs:
@@ -14,6 +18,8 @@ jobs:
                 node-version: 22
             - run: npm i
             - run: npm run build
+              env:
+                BASE_PATH: '/${{ github.event.repository.name}}'
             - run: npx playwright install --with-deps
             - run: npm run test:e2e
             - uses: actions/upload-artifact@v4
@@ -22,3 +28,7 @@ jobs:
                 name: playwright-report
                 path: playwright-report/
                 retention-days: 30
+            - uses: actions/upload-artifact@v4
+              if: ${{ inputs.upload-pages-artifact }}
+              with:
+                path: build/
